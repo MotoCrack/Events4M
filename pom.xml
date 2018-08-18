@@ -11,6 +11,7 @@
     <description>Eventos dos servidores da rede MotoNetwork.</description>
     <modules>
         <module>Killer</module>
+        <module>Quiz</module>
     </modules>
     <packaging>pom</packaging>
     <inceptionYear>2018</inceptionYear>
