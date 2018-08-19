@@ -2,7 +2,7 @@ package me.devnatan.events4m.quiz.argument;
 
 import me.devnatan.events4m.quiz.Event;
 import me.devnatan.events4m.quiz.Quiz;
-import me.devnatan.events4m.quiz.util.CommandUtil;
+import me.devnatan.events4m.quiz.util.AnyUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -16,7 +16,7 @@ public class AnswerArgument extends Argument {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        if(sender instanceof Player && !CommandUtil.canContinue(sender, "events4m.quiz." + getName().toLowerCase())) {
+        if(sender instanceof Player && !AnyUtil.canContinue(sender, "events4m.quiz." + getName().toLowerCase())) {
             return;
         }
 

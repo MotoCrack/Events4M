@@ -2,7 +2,7 @@ package me.devnatan.events4m.quiz;
 
 import lombok.Getter;
 import lombok.Setter;
-import me.devnatan.events4m.quiz.util.CommandUtil;
+import me.devnatan.events4m.quiz.util.AnyUtil;
 import org.bukkit.entity.Player;
 
 public class Event {
@@ -36,7 +36,7 @@ public class Event {
         int i = 0;
         String[] a = answer.split(" ");
         for(String s : a) {
-            if(CommandUtil.containsIn(qa.getAnswers(), s)) i++;
+            if(AnyUtil.containsIn(qa.getAnswers(), s)) i++;
         }
         return i == answer.length();
     }

@@ -4,8 +4,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
 
-public class CommandUtil {
+public class AnyUtil {
 
     public static boolean canContinue(CommandSender sender, String permission) {
         if(!sender.hasPermission(permission)) {
@@ -26,6 +27,16 @@ public class CommandUtil {
 
     public static String[] constructUncoloured(String str) {
         return Arrays.stream(str.split(" ")).peek(ChatColor::stripColor).toArray(String[]::new);
+    }
+
+    public static String millisToReadable(long millis) {
+        long seconds = TimeUnit.MILLISECONDS.toSeconds(millis);
+        int minutes = 0;
+        do {
+            minutes++;
+            seconds -= 60;
+        } while(seconds >= 60);
+        return minutes > 0 && seconds > 0 ? minutes + "min " + seconds + "seg " : seconds == 0 ? minutes + "min" : seconds + "seconds";
     }
 
 }
