@@ -7,11 +7,14 @@ import me.devnatan.events4m.quiz.argument.QuestionArgument;
 import me.devnatan.events4m.quiz.argument.StartArgument;
 import me.devnatan.events4m.quiz.command.AnswerCommand;
 import me.devnatan.events4m.quiz.command.QuizCommand;
+import net.milkbowl.vault.economy.Economy;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -21,6 +24,8 @@ public final class Quiz extends JavaPlugin {
     @Getter private static Quiz instance;
     @Getter private Event event;
     @Getter private Map<String, String> messages;
+    @Getter private Economy economy;
+    @Getter private Reward reward;
 
     public void onLoad() {
         instance = this;
@@ -30,22 +35,30 @@ public final class Quiz extends JavaPlugin {
         root();
         event();
         plugin();
+        economy();
     }
 
     private void root() {
-        if(!getDataFolder().exists())
-            getDataFolder().mkdir();
+        if(!getDataFolder().exists() && !getDataFolder().mkdir()) {
+            getLogger().severe("Falha ao criar pasta do plugin.");
+            return;
+        }
 
         if(!new File(getDataFolder(), "config.yml").exists())
             saveResource("config.yml", false);
 
-        messages = getConfig().getConfigurationSection("messages").getValues(false)
+        ConfigurationSection conf = getConfig();
+        messages = conf.getConfigurationSection("messages").getValues(false)
                 .entrySet().stream()
                 .collect(Collectors.toMap(Map.Entry::getKey, e -> ChatColor.translateAlternateColorCodes('&', (String) e.getValue())));
+        reward = new Reward();
+        reward.setMoney(conf.contains("reward.money") ? conf.getDouble("reward.money") : 0.0d);
+        reward.setCommands(conf.contains("reward.commands") ? conf.getStringList("reward.commands") : new ArrayList<>());
     }
 
     private void event() {
         event = new Event();
+        event.interrupt();
     }
 
     private void plugin() {
@@ -57,6 +70,22 @@ public final class Quiz extends JavaPlugin {
         }).register("quiz");
     }
 
+    private void economy() {
+        if(!getServer().getPluginManager().isPluginEnabled("Vault")) {
+            getLogger().severe("Dependência opcional Vault não encontrada.");
+            return;
+        }
+
+        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
+        if (rsp == null) {
+            getLogger().severe("Nenhum plugin de economia foi encontrado.");
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+
+        economy = rsp.getProvider();
+    }
+
     /**
      * Obtem uma pergunta e uma resposta randômicamente,
      * que já estão pre-definidas na configuração.
@@ -64,10 +93,10 @@ public final class Quiz extends JavaPlugin {
      */
     public QA random() {
         ConfigurationSection section = getConfig().getConfigurationSection("questions-and-answers");
-        ConfigurationSection randomic = section.getConfigurationSection(String.valueOf(new Random().nextInt(section.getKeys(false).size())));
+        ConfigurationSection randomly = section.getConfigurationSection(String.valueOf(new Random().nextInt(section.getKeys(false).size())));
         return new QA(
-                randomic.getString("question"),
-                randomic.getStringList("answers").toArray(new String[0])
+                randomly.getString("question"),
+                randomly.getStringList("answers").toArray(new String[0])
         );
     }
 }

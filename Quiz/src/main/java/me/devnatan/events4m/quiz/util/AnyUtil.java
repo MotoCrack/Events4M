@@ -1,8 +1,10 @@
 package me.devnatan.events4m.quiz.util;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
+import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
@@ -37,6 +39,10 @@ public class AnyUtil {
             seconds -= 60;
         } while(seconds >= 60);
         return minutes > 0 && seconds > 0 ? minutes + "min " + seconds + "seg " : seconds == 0 ? minutes + "min" : seconds + "seconds";
+    }
+
+    public static void announce(String message, Object... params) {
+        Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', MessageFormat.format(message, params)));
     }
 
 }

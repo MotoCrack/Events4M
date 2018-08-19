@@ -3,12 +3,16 @@ package me.devnatan.events4m.quiz;
 import lombok.Getter;
 import lombok.Setter;
 import me.devnatan.events4m.quiz.util.AnyUtil;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+
+import static me.devnatan.events4m.quiz.util.AnyUtil.announce;
 
 public class Event {
 
-    @Getter @Setter QA qa;
+    @Getter @Setter private QA qa;
     @Getter @Setter private long fired;
+    @Getter @Setter private String input;
 
     /**
      * Variável que guarda o tempo que o jogador respondeu com a resposta correta
@@ -48,6 +52,12 @@ public class Event {
         if(started)
             throw new IllegalStateException("Event is already started");
 
+        announce(" ");
+        announce(" &eEvento &lQUIZ &r&einiciado!");
+        announce(" &ePergunta: &a{0}?", qa.getQuestion());
+        announce(" &eEscreva sua resposta usando &a/{0}&e.", "/resposta");
+        announce(" &eO primeiro que acertar ganha o evento.");
+        announce(" ");
         complete = -1;
         fired = System.currentTimeMillis();
         started = true;
@@ -69,5 +79,34 @@ public class Event {
 
         started = false;
         complete = System.currentTimeMillis();
+
+        Quiz quiz = Quiz.getInstance();
+        if(quiz.getReward() != null) {
+            Reward reward = quiz.getReward();
+            if(reward.getMoney() > 0.0d && quiz.getEconomy() != null) {
+                quiz.getEconomy().depositPlayer(winner, reward.getMoney());
+            }
+
+            for(String s : reward.getCommands()) {
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), s);
+            }
+        }
+        announce(" ");
+        announce(" &eEvento &lQUIZ &r&eencerrado!");
+        announce(" &eParabéns &a" + winner.getName() + "&e, você é um gênio!");
+        announce(" &eDuração do evento: " + AnyUtil.millisToReadable(getElapsed()));
+        announce(" &eResposta: &a" + input);
+        announce(" ");
+        announce(" &eObrigado a todos que participaram e boa sorte na próxima.");
+        announce(" ");
+    }
+
+    /**
+     * Interrompe o evento quiz.
+     */
+    public void interrupt() {
+        started = false;
+        complete = -1;
+        fired = -1;
     }
 }

@@ -34,6 +34,7 @@ public class AnswerCommand extends Command {
 
         sender.sendMessage(ChatColor.GREEN + "Muito bem, esta é a resposta correta.");
         sender.sendMessage(ChatColor.GREEN + "Você ganhou o evento Quiz!");
+        event.setInput(args[0]);
         event.stop((Player) sender);
     }
 

@@ -15,6 +15,22 @@
     <description>Evento pergunta e resposta do MotoNetwork.</description>
     <packaging>jar</packaging>
 
+    <repositories>
+        <repository>
+            <id>vault-repo</id>
+            <url>http://nexus.hc.to/content/repositories/pub_releases</url>
+        </repository>
+    </repositories>
+
+    <dependencies>
+        <dependency>
+            <groupId>net.milkbowl.vault</groupId>
+            <artifactId>VaultAPI</artifactId>
+            <version>1.6</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
+
     <build>
         <finalName>Events4M</finalName>
         <outputDirectory>${basedir}/${target.dir}/classes</outputDirectory>
