@@ -32,7 +32,7 @@ public final class Bolao extends JavaPlugin {
     }
 
     public void onDisable() {
-        if(event != null && event.isStarted()) {
+        if(event != null) {
             event.interrupt();
         }
     }
