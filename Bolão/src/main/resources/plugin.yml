@@ -10,3 +10,7 @@ commands:
   bolao:
     description: Apostar no evento bolao.
     usage: /bolao (argumentos)
+
+permissions:
+  events4m.bolao.iniciar:
+    description: Permitir um jogador iniciar o evento Bolao.

@@ -23,12 +23,12 @@ public class Event implements Runnable {
     @Override
     public void run() {
         elapsed++;
-        if(elapsed == TimeUnit.MINUTES.toSeconds(2)) {
-            stop(random());
+        if(elapsed == TimeUnit.MINUTES.toSeconds(3)) {
+            stop(players.size() > 0 ? random() : null);
             return;
         }
 
-        if(elapsed == 30 || elapsed == 60 || elapsed == 90) {
+        if(elapsed == 30 || elapsed == 60 || elapsed == 90 || elapsed == 120 || elapsed == 150) {
             announce(" ");
             announce(" &aEvento &lBOLãO &r&aacontecendo!");
             announce(" &aAposta mínima: &f${0}", String.format("%.2f", Bolao.getInstance().getAmount()));
@@ -47,7 +47,7 @@ public class Event implements Runnable {
 
         announce(" ");
         announce(" &aEvento &lBOLãO &r&aacontecendo!");
-        announce(" &aAposta mínima: &f{0}?", String.format("%.2f", Bolao.getInstance().getAmount()));
+        announce(" &aAposta mínima: &f{0}", String.format("%.2f", Bolao.getInstance().getAmount()));
         announce(" ");
         announce(" &aAposte no bolão usando &f/{0} &ase tiver sorte.", "bolao");
         announce(" &aO jogador sorteado levará todo o dinheiro acumulado!");
@@ -62,24 +62,30 @@ public class Event implements Runnable {
         if(!started)
             throw new IllegalStateException("Event must be started");
 
-        if(winner == null)
-            throw new NullPointerException("Winner cannot be null");
-
-        if(!winner.isOnline())
-            throw new IllegalStateException("Winer must be online");
-
         task.cancel();
         started = false;
-        announce(" ");
-        announce(" &aEvento &lBOLãO &r&aencerrado!");
-        announce(" &aO jogador sorteado foi: &f{0}", winner.getName());
-        announce(" &aDuração do evento: {0}", AnyUtil.millisToReadable(System.currentTimeMillis() - TimeUnit.SECONDS.toMillis(elapsed)));
-        announce(" &aAcumulado: &f${0}", String.format("%.2f", getTotalAmount()));
-        announce(" ");
-        announce(" &aO vencedor levou todo o dinheiro acumulado.");
-        announce(" &aPara quem não teve sorte desta vez, quem sabe na próxima!");
-        announce(" ");
-        Bolao.getInstance().getEconomy().depositPlayer(winner, getTotalAmount());
+        if(winner == null) {
+            announce(" ");
+            announce(" &aEvento &lBOLãO &r&aencerrado!");
+            announce(" &aNenhum jogador participou =(");
+            announce(" &aDuração do evento: {0}", getDuration());
+            announce(" ");
+            announce(" &aO vencedor levaria todo o dinheiro acumulado.");
+            announce(" &aPara quem não participou desta vez, quem sabe na próxima!");
+            announce(" ");
+        } else {
+            announce(" ");
+            announce(" &aEvento &lBOLãO &r&aencerrado!");
+            announce(" &aO jogador sorteado foi: &f{0}", winner.getName());
+            announce(" &aDuração do evento: {0}", getDuration());
+            announce(" &aAcumulado: &f${0}", String.format("%.2f", getTotalAmount()));
+            announce(" ");
+            announce(" &aO vencedor levou todo o dinheiro acumulado.");
+            announce(" &aPara quem não teve sorte desta vez, quem sabe na próxima!");
+            announce(" ");
+            Bolao.getInstance().getEconomy().depositPlayer(winner, getTotalAmount());
+        }
+
         players.clear();
         elapsed = 0;
     }
@@ -96,6 +102,11 @@ public class Event implements Runnable {
     }
 
     private double getTotalAmount() {
-        return Bolao.getInstance().getAmount() * players.size();
+        double amount = Bolao.getInstance().getAmount();
+        return (amount * players.size()) + amount;
+    }
+
+    private String getDuration() {
+        return AnyUtil.millisToReadable(TimeUnit.SECONDS.toMillis(elapsed));
     }
 }

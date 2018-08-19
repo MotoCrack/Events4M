@@ -19,8 +19,8 @@ public class Events implements Listener {
             while(iterator.hasNext()) {
                 Player next = iterator.next();
                 if(next.equals(player)) {
-                    bolao.getEconomy().depositPlayer(player, bolao.getAmount());
                     iterator.remove();
+                    bolao.getEconomy().depositPlayer(player, bolao.getAmount());
                     break;
                 }
             }
