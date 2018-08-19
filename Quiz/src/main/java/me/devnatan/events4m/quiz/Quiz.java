@@ -1,8 +1,11 @@
 package me.devnatan.events4m.quiz;
 
 import lombok.Getter;
+import me.devnatan.events4m.quiz.argument.AnswerArgument;
 import me.devnatan.events4m.quiz.argument.Argument;
+import me.devnatan.events4m.quiz.argument.QuestionArgument;
 import me.devnatan.events4m.quiz.argument.StartArgument;
+import me.devnatan.events4m.quiz.command.AnswerCommand;
 import me.devnatan.events4m.quiz.command.QuizCommand;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
@@ -46,8 +49,11 @@ public final class Quiz extends JavaPlugin {
     }
 
     private void plugin() {
+        new AnswerCommand().register("resposta");
         new QuizCommand(new Argument[] {
-                new StartArgument()
+                new StartArgument(),
+                new QuestionArgument(),
+                new AnswerArgument()
         }).register("quiz");
     }
 
@@ -61,7 +67,7 @@ public final class Quiz extends JavaPlugin {
         ConfigurationSection randomic = section.getConfigurationSection(String.valueOf(new Random().nextInt(section.getKeys(false).size())));
         return new QA(
                 randomic.getString("question"),
-                randomic.getStringList("answer").toArray(new String[0])
+                randomic.getStringList("answers").toArray(new String[0])
         );
     }
 }

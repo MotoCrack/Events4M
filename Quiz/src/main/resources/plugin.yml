@@ -1,0 +1,14 @@
+main: ${project.parent.groupId}.quiz.Quiz
+name: ${project.artifactId}
+version: ${project.version}
+authors: [DevNatan, ClhoeMiss]
+website: https://github.com/MotoCrack/Events4M
+description: ${project.description}
+
+commands:
+  quiz:
+    description: Comando principal do evento quiz.
+    usage: /quiz (argumentos)
+  resposta:
+    description: Responder a pergunta do evento quiz.
+    usage: /resposta [resposta da pergunta]

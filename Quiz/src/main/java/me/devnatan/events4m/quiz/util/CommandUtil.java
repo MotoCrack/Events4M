@@ -3,6 +3,8 @@ package me.devnatan.events4m.quiz.util;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
+import java.util.Arrays;
+
 public class CommandUtil {
 
     public static boolean canContinue(CommandSender sender, String permission) {
@@ -20,6 +22,10 @@ public class CommandUtil {
                 break;
             }
         } return contains;
+    }
+
+    public static String[] constructUncoloured(String str) {
+        return Arrays.stream(str.split(" ")).peek(ChatColor::stripColor).toArray(String[]::new);
     }
 
 }

@@ -2,11 +2,10 @@
 # Copyright (c) 2018 MotoNetwork.
 # Idealizado por ClhoeMiss e DevNatan.
 #
-messages: []
 questions-and-answers:
   1:
     question: "Quem foi que fez este plugin?"
-    answer:
+    answers:
       - "Natan"
       - "NT"
       - "o mito NT"

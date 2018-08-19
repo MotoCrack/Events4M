@@ -45,7 +45,12 @@ public class Event {
      * Começa o evento.
      */
     public void start() {
+        if(started)
+            throw new IllegalStateException("Event is already started");
 
+        complete = -1;
+        fired = System.currentTimeMillis();
+        started = true;
     }
 
     /**
@@ -53,6 +58,16 @@ public class Event {
      * @param winner = o vencedor
      */
     public void stop(Player winner) {
+        if(!started)
+            throw new IllegalStateException("Event must be started");
 
+        if(winner == null)
+            throw new NullPointerException("Winner cannot be null");
+
+        if(!winner.isOnline())
+            throw new IllegalStateException("Winer must be online");
+
+        started = false;
+        complete = System.currentTimeMillis();
     }
 }

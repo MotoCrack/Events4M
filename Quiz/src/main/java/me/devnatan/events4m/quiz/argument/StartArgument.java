@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 public class StartArgument extends Argument {
 
     public StartArgument() {
-        super("iniciar", 1);
+        super("iniciar", 0);
         consoleExecutable = true;
     }
 
@@ -53,9 +53,6 @@ public class StartArgument extends Argument {
             sender.sendMessage(ChatColor.YELLOW + "Usando pergunta e resposta aleatórias.");
         }
 
-        event.setComplete(-1);
-        event.setStarted(true);
-        event.setFired(System.currentTimeMillis());
         event.start();
     }
 }

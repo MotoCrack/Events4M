@@ -22,7 +22,7 @@ public class QuizCommand extends Command {
 
         sender.sendMessage(ChatColor.GREEN + "  Evento " + ChatColor.BOLD + "QUIZ");
         sender.sendMessage(" ");
-        sender.sendMessage(ChatColor.YELLOW + "  Pergunta: " + ChatColor.RESET + event.getQuestion());
+        sender.sendMessage(ChatColor.YELLOW + "  Pergunta: " + ChatColor.RESET + event.getQa().getQuestion());
         sender.sendMessage(ChatColor.YELLOW + "  Resposta: " + ChatColor.RESET + "-/-");
     }
 
