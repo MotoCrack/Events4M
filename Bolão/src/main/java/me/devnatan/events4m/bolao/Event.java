@@ -86,8 +86,8 @@ public class Event implements Runnable {
 
     public void interrupt() {
         started = false;
-        task.cancel();
-        players.clear();
+        if(task != null) task.cancel();
+        if(players != null) players.clear();
         elapsed = 0;
     }
 

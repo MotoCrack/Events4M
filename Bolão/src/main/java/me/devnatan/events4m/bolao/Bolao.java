@@ -25,14 +25,18 @@ public final class Bolao extends JavaPlugin {
     }
 
     public void onEnable() {
-        root();
-        economy();
-        event();
-        plugin();
+        try {
+            root();
+            economy();
+            event();
+            plugin();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void onDisable() {
-        if(event != null) {
+        if(event != null && event.isStarted()) {
             event.interrupt();
         }
     }
@@ -74,7 +78,7 @@ public final class Bolao extends JavaPlugin {
         new BolaoCommand(new Argument[] {
                 new StartArgument()
         }).register("bolao");
-        Bukkit.getPluginManager().disablePlugin(this);
+        Bukkit.getPluginManager().registerEvents(new Events(), this);
     }
 
 }

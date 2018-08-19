@@ -10,7 +10,6 @@
 
     <description>Eventos dos servidores da rede MotoNetwork.</description>
     <modules>
-        <module>Killer</module>
         <module>Quiz</module>
         <module>Bolão</module>
     </modules>
