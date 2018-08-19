@@ -12,6 +12,7 @@
     <modules>
         <module>Killer</module>
         <module>Quiz</module>
+        <module>Bolão</module>
     </modules>
     <packaging>pom</packaging>
     <inceptionYear>2018</inceptionYear>

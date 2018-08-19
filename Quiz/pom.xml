@@ -33,8 +33,8 @@
 
     <build>
         <finalName>Events4M-Quiz</finalName>
-        <outputDirectory>${basedir}/${target.dir}/classes</outputDirectory>
-        <testOutputDirectory>${basedir}/${target.dir}/test-classes</testOutputDirectory>
+        <outputDirectory>${basedir}/target/classes</outputDirectory>
+        <testOutputDirectory>${basedir}/target/test-classes</testOutputDirectory>
 
         <defaultGoal>clean install</defaultGoal>
         <resources>
