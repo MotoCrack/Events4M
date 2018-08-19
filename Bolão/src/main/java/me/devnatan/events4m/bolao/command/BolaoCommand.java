@@ -44,7 +44,8 @@ public class BolaoCommand extends Command {
         p.sendMessage(" ");
         p.sendMessage(" " + ChatColor.GREEN + "Você está participando do evento " + ChatColor.BOLD + "BOLãO" + ChatColor.GREEN + ".");
         p.sendMessage(" " + ChatColor.GREEN + "Nós removemos " + ChatColor.RESET + "$" + String.format("%.2f", b.getAmount()) + ChatColor.GREEN + " da sua conta.");
-        p.sendMessage(" " + ChatColor.GREEN + "Caso você saia do jogo seu dinheiro será devolvido.");
+        p.sendMessage(" " + ChatColor.GREEN + "Saia do evento usando " + ChatColor.RESET + "/bolao sair" + ChatColor.GREEN + " e seu dinheiro será devolvido.");
+        p.sendMessage(" " + ChatColor.GREEN + "Caso você saia do jogo seu dinheiro também será devolvido.");
         p.sendMessage(" ");
     }
 }
