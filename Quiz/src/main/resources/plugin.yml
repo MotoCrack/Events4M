@@ -13,3 +13,17 @@ commands:
   resposta:
     description: Responder a pergunta do evento quiz.
     usage: /resposta [resposta da pergunta]
+
+permissions:
+  events4m.quiz.*:
+      description: Engloba todas as permissoes do evento Qiz.
+      children:
+        events4m.quiz.iniciar: true
+        events4m.quiz.pergunta: true
+        events4m.quiz.resposta: true
+  events4m.quiz.iniciar:
+    description: Iniciar o evento Quiz.
+  events4m.quiz.pergunta:
+    description: Definir qual pergunta do evento Quiz.
+  events4m.quiz.resposta:
+    description: Definir a resposta correta da pergunta do evento Quiz.
