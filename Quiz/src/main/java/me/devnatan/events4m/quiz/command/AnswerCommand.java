@@ -2,6 +2,7 @@ package me.devnatan.events4m.quiz.command;
 
 import me.devnatan.events4m.quiz.Event;
 import me.devnatan.events4m.quiz.Quiz;
+import me.devnatan.events4m.quiz.util.AnyUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -26,7 +27,8 @@ public class AnswerCommand extends Command {
             return;
         }
 
-        if(!event.matchAnswer(args[0])) {
+        String constructed = AnyUtil.fromArgs(args);
+        if(!event.matchAnswer(constructed)) {
             sender.sendMessage(ChatColor.RED + "Não, quem sabe outra hora..");
             sender.sendMessage(ChatColor.RED + "Esta resposta nao é a correta!");
             return;
@@ -34,7 +36,7 @@ public class AnswerCommand extends Command {
 
         sender.sendMessage(ChatColor.GREEN + "Muito bem, esta é a resposta correta.");
         sender.sendMessage(ChatColor.GREEN + "Você ganhou o evento Quiz!");
-        event.setInput(args[0]);
+        event.setInput(constructed);
         event.stop((Player) sender);
     }
 

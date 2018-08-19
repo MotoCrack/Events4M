@@ -6,7 +6,8 @@ import org.bukkit.command.CommandSender;
 
 import java.text.MessageFormat;
 import java.util.Arrays;
-import java.util.concurrent.TimeUnit;
+import java.util.Iterator;
+import java.util.List;
 
 public class AnyUtil {
 
@@ -26,22 +27,13 @@ public class AnyUtil {
     }
 
     public static String millisToReadable(long millis) {
-        int seconds = (int) TimeUnit.MILLISECONDS.toSeconds(millis);
-        int minutes = 0;
-
-        do {
-            minutes++;
-            seconds -= 60;
-        } while(seconds >= 60);
-
-        if(minutes != 0) {
-            String s = minutes + "min";
-            if(seconds != 0)
-                s += " " + seconds + "seg";
-            return s;
+        if(millis / 1000 < 1L) {
+            return String.format("%.2f", (float) millis) + "ms";
         }
+        int min = (int) (((millis / 1000) / 60) % 60);
+        int seg = (int) ((millis / 1000) % 60);
 
-        return seconds + "seg";
+        return (min > 0) ? min + "min " + seg + "seg" : seg + "seg";
     }
 
     public static void announce(String message, Object... params) {
@@ -59,6 +51,22 @@ public class AnyUtil {
         } catch (StringIndexOutOfBoundsException e) {
             return sb.toString();
         }
+    }
+
+    public static boolean containsEqualsIgnoreCase(List<String> l1, List<String> l2) {
+        if (l1.size() != l2.size()) {
+            return false;
+        }
+
+        Iterator<String> i1= l1.iterator();
+        Iterator<String> i2= l2.iterator();
+        while(i1.hasNext()) {
+            if (!i1.next().equalsIgnoreCase(i2.next())) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
 }

@@ -28,7 +28,7 @@ public class Event {
      * um jogador respondeu a pergunta corretamente
      * @return long
      */
-    public long getElapsed() {
+    private long getElapsed() {
         return complete - fired;
     }
 
@@ -39,14 +39,7 @@ public class Event {
      * @return "true" se conter uma resposta; "false" se não conter uma resposta
      */
     public boolean matchAnswer(String answer) {
-        if(!answer.contains(" ")) return Arrays.stream(qa.getAnswers()).anyMatch(s -> s.equalsIgnoreCase(answer));
-
-        String[] a = answer.split(" ");
-        int i = 0;
-        for(String s : a) {
-            if(AnyUtil.containsIn(qa.getAnswers(), s)) i++;
-        }
-        return i >= answer.length();
+        return AnyUtil.containsEqualsIgnoreCase(Arrays.asList(answer.split(" ")), Arrays.asList(qa.getAnswers()));
     }
 
     /**
@@ -84,6 +77,15 @@ public class Event {
         started = false;
         complete = System.currentTimeMillis();
 
+        announce(" ");
+        announce(" &eEvento &lQUIZ &r&eencerrado!");
+        announce(" &eParabéns &a" + winner.getName() + "&e, você é um gênio!");
+        announce(" &eDuração do evento: " + AnyUtil.millisToReadable(getElapsed()));
+        announce(" &eResposta: &a" + input);
+        announce(" ");
+        announce(" &eObrigado a todos que participaram e boa sorte na próxima.");
+        announce(" ");
+
         Quiz quiz = Quiz.getInstance();
         if(quiz.getReward() != null) {
             Reward reward = quiz.getReward();
@@ -95,14 +97,6 @@ public class Event {
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), s);
             }
         }
-        announce(" ");
-        announce(" &eEvento &lQUIZ &r&eencerrado!");
-        announce(" &eParabéns &a" + winner.getName() + "&e, você é um gênio!");
-        announce(" &eDuração do evento: " + AnyUtil.millisToReadable(getElapsed()));
-        announce(" &eResposta: &a" + input);
-        announce(" ");
-        announce(" &eObrigado a todos que participaram e boa sorte na próxima.");
-        announce(" ");
     }
 
     /**

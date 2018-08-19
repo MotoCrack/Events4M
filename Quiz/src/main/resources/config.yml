@@ -7,11 +7,8 @@ reward:
   commands:
     - "spawner give %player CuboDeMagma 10000"
 questions-and-answers:
-  1:
+  0:
     question: "Quem foi que fez este plugin?"
     answers:
-      - "Natan"
       - "NT"
-      - "o mito NT"
-      - "o deus NT"
-      - "o Motumbo"
+      - "mito"
