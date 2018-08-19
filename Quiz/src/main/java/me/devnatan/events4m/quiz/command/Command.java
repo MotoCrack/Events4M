@@ -4,7 +4,6 @@ import lombok.Getter;
 import me.devnatan.events4m.quiz.Quiz;
 import me.devnatan.events4m.quiz.argument.Argument;
 import me.devnatan.events4m.quiz.util.Executable;
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -27,27 +26,23 @@ public abstract class Command implements CommandExecutor, Executable {
         }
     }
 
-    @Override
     public boolean onCommand(CommandSender sender, org.bukkit.command.Command command, String s, String[] args) {
-        if(args.length == 0) {
-            execute(sender, args);
-            return true;
-        }
-
         for(Argument argument : arguments) {
             if(argument != null) {
-                if(!(sender instanceof Player) && !argument.isConsoleExecutable()) {
-                    sender.sendMessage("Somente jogadores IN-GAME podem fazer isto.");
+                int len = argument.getTarget();
+                if(args.length > len && args[len] != null && args[len].equalsIgnoreCase(argument.getName())) {
+                    if(!(sender instanceof Player) && !argument.isConsoleExecutable()) {
+                        sender.sendMessage("Somente jogadores IN-GAME podem fazer isto.");
+                        return true;
+                    }
+
+                    argument.execute(sender, Arrays.copyOfRange(args, len + 1, args.length));
                     return true;
                 }
-
-                if(args.length >= argument.getTarget() && args[argument.getTarget()].equalsIgnoreCase(argument.getName()))
-                    argument.execute(sender, Arrays.copyOfRange(args, argument.getTarget(), args.length));
-                return true;
             }
         }
 
-        sender.sendMessage(ChatColor.RED + "Comando inválido, use /" + command.getName() + " para saber mais.");
+        execute(sender, args);
         return true;
     }
 }

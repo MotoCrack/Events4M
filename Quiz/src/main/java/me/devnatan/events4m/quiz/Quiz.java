@@ -8,7 +8,6 @@ import me.devnatan.events4m.quiz.argument.StartArgument;
 import me.devnatan.events4m.quiz.command.AnswerCommand;
 import me.devnatan.events4m.quiz.command.QuizCommand;
 import net.milkbowl.vault.economy.Economy;
-import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -17,7 +16,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 public final class Quiz extends JavaPlugin {
 
@@ -39,18 +37,12 @@ public final class Quiz extends JavaPlugin {
     }
 
     private void root() {
-        if(!getDataFolder().exists() && !getDataFolder().mkdir()) {
-            getLogger().severe("Falha ao criar pasta do plugin.");
-            return;
-        }
+        if(!getDataFolder().exists())getDataFolder().mkdir();
 
         if(!new File(getDataFolder(), "config.yml").exists())
             saveResource("config.yml", false);
 
         ConfigurationSection conf = getConfig();
-        messages = conf.getConfigurationSection("messages").getValues(false)
-                .entrySet().stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, e -> ChatColor.translateAlternateColorCodes('&', (String) e.getValue())));
         reward = new Reward();
         reward.setMoney(conf.contains("reward.money") ? conf.getDouble("reward.money") : 0.0d);
         reward.setCommands(conf.contains("reward.commands") ? conf.getStringList("reward.commands") : new ArrayList<>());

@@ -32,7 +32,7 @@
     </dependencies>
 
     <build>
-        <finalName>Events4M</finalName>
+        <finalName>Events4M-Quiz</finalName>
         <outputDirectory>${basedir}/${target.dir}/classes</outputDirectory>
         <testOutputDirectory>${basedir}/${target.dir}/test-classes</testOutputDirectory>
 

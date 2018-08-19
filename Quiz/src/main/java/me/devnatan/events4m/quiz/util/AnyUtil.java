@@ -10,21 +10,15 @@ import java.util.concurrent.TimeUnit;
 
 public class AnyUtil {
 
-    public static boolean canContinue(CommandSender sender, String permission) {
-        if(!sender.hasPermission(permission)) {
+    public static void ifPermissioned(CommandSender sender, String permission, Runnable runnable) {
+        if (!sender.hasPermission(permission)) {
             sender.sendMessage(ChatColor.RED + "Você não tem permissão para fazer isto.");
-            return true;
-        } return false;
+            return;
+        } runnable.run();
     }
 
     public static boolean containsIn(String[] array, String needle) {
-        boolean contains = false;
-        for(String s : array) {
-            if(s.equalsIgnoreCase(needle)) {
-                contains = true;
-                break;
-            }
-        } return contains;
+        return Arrays.stream(array).anyMatch(s -> s.equalsIgnoreCase(needle));
     }
 
     public static String[] constructUncoloured(String str) {
@@ -32,17 +26,39 @@ public class AnyUtil {
     }
 
     public static String millisToReadable(long millis) {
-        long seconds = TimeUnit.MILLISECONDS.toSeconds(millis);
+        int seconds = (int) TimeUnit.MILLISECONDS.toSeconds(millis);
         int minutes = 0;
+
         do {
             minutes++;
             seconds -= 60;
         } while(seconds >= 60);
-        return minutes > 0 && seconds > 0 ? minutes + "min " + seconds + "seg " : seconds == 0 ? minutes + "min" : seconds + "seconds";
+
+        if(minutes != 0) {
+            String s = minutes + "min";
+            if(seconds != 0)
+                s += " " + seconds + "seg";
+            return s;
+        }
+
+        return seconds + "seg";
     }
 
     public static void announce(String message, Object... params) {
         Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', MessageFormat.format(message, params)));
+    }
+
+    public static String fromArgs(String[] args) {
+        StringBuilder sb = new StringBuilder();
+        for (String arg : args) {
+            sb.append(arg).append(" ");
+        }
+
+        try {
+            return sb.toString().substring(0, sb.toString().length() - 1);
+        } catch (StringIndexOutOfBoundsException e) {
+            return sb.toString();
+        }
     }
 
 }

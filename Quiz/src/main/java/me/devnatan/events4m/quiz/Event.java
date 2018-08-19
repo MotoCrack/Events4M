@@ -6,6 +6,8 @@ import me.devnatan.events4m.quiz.util.AnyUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import java.util.Arrays;
+
 import static me.devnatan.events4m.quiz.util.AnyUtil.announce;
 
 public class Event {
@@ -27,7 +29,7 @@ public class Event {
      * @return long
      */
     public long getElapsed() {
-        return fired - complete;
+        return complete - fired;
     }
 
     /**
@@ -37,12 +39,14 @@ public class Event {
      * @return "true" se conter uma resposta; "false" se não conter uma resposta
      */
     public boolean matchAnswer(String answer) {
-        int i = 0;
+        if(!answer.contains(" ")) return Arrays.stream(qa.getAnswers()).anyMatch(s -> s.equalsIgnoreCase(answer));
+
         String[] a = answer.split(" ");
+        int i = 0;
         for(String s : a) {
             if(AnyUtil.containsIn(qa.getAnswers(), s)) i++;
         }
-        return i == answer.length();
+        return i >= answer.length();
     }
 
     /**
@@ -55,7 +59,7 @@ public class Event {
         announce(" ");
         announce(" &eEvento &lQUIZ &r&einiciado!");
         announce(" &ePergunta: &a{0}?", qa.getQuestion());
-        announce(" &eEscreva sua resposta usando &a/{0}&e.", "/resposta");
+        announce(" &eEscreva sua resposta usando &a/{0}&e.", "resposta");
         announce(" &eO primeiro que acertar ganha o evento.");
         announce(" ");
         complete = -1;

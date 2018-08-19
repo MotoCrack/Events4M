@@ -10,4 +10,6 @@ public class QA {
     @Getter @Setter private String question;
     @Getter @Setter private String[] answers;
 
+    public QA() {}
+
 }
