@@ -9,4 +9,4 @@ description: ${project.description}
 commands:
   bolao:
     description: Apostar no evento bolao.
-    usage: /bolao (dinheiro)
+    usage: /bolao (argumentos)
