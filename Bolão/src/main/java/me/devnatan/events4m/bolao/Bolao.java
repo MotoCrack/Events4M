@@ -2,6 +2,7 @@ package me.devnatan.events4m.bolao;
 
 import lombok.Getter;
 import me.devnatan.events4m.bolao.argument.Argument;
+import me.devnatan.events4m.bolao.argument.LeaveArgument;
 import me.devnatan.events4m.bolao.argument.StartArgument;
 import me.devnatan.events4m.bolao.command.BolaoCommand;
 import net.milkbowl.vault.economy.Economy;
@@ -76,7 +77,8 @@ public final class Bolao extends JavaPlugin {
 
     private void plugin() {
         new BolaoCommand(new Argument[] {
-                new StartArgument()
+                new StartArgument(),
+                new LeaveArgument()
         }).register("bolao");
         Bukkit.getPluginManager().registerEvents(new Events(), this);
     }

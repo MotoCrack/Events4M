@@ -47,7 +47,7 @@ public class Event implements Runnable {
 
         announce(" ");
         announce(" &aEvento &lBOLãO &r&aacontecendo!");
-        announce(" &aAposta mínima: &f{0}", String.format("%.2f", Bolao.getInstance().getAmount()));
+        announce(" &aAposta mínima: &f${0}", String.format("%.2f", Bolao.getInstance().getAmount()));
         announce(" ");
         announce(" &aAposte no bolão usando &f/{0} &ase tiver sorte.", "bolao");
         announce(" &aO jogador sorteado levará todo o dinheiro acumulado!");
@@ -58,7 +58,7 @@ public class Event implements Runnable {
         started = true;
     }
 
-    public void stop(Player winner) {
+    private void stop(Player winner) {
         if(!started)
             throw new IllegalStateException("Event must be started");
 
@@ -92,8 +92,11 @@ public class Event implements Runnable {
 
     public void interrupt() {
         started = false;
-        if(task != null) task.cancel();
         if(players != null) players.clear();
+        if(task != null && Bukkit.getScheduler().isCurrentlyRunning(task.getTaskId())) {
+            task.cancel();
+            task = null;
+        }
         elapsed = 0;
     }
 
@@ -107,6 +110,6 @@ public class Event implements Runnable {
     }
 
     private String getDuration() {
-        return AnyUtil.millisToReadable(TimeUnit.SECONDS.toMillis(elapsed));
+        return AnyUtil.millisToReadable(elapsed * 1000);
     }
 }
