@@ -3,3 +3,12 @@
 # Idealizado por ClhoeMiss e DevNatan.
 #
 messages: []
+questions-and-answers:
+  1:
+    question: "Quem foi que fez este plugin?"
+    answer:
+      - "Natan"
+      - "NT"
+      - "o mito NT"
+      - "o deus NT"
+      - "o Motumbo"
