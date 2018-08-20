@@ -2,14 +2,12 @@ package me.devnatan.events4m.fight.event;
 
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.ArrayList;
-import java.util.List;
+import me.devnatan.events4m.fight.java.GenericTypeArray;
 
 public class Event {
 
     @Getter @Setter private boolean started = false;
-    @Getter private final List<EventPlayer> fighters = new ArrayList<>();
+    @Getter private GenericTypeArray<EventPlayer> fighters = new GenericTypeArray<>(0);
 
     public void start() {
         if(started)
@@ -39,11 +37,11 @@ public class Event {
 
     private void reset() {
         started = false;
-        fighters.clear();
+        fighters.reset(0);
     }
 
     private EventPlayer getWinner() {
-        return fighters.size() == 1 ? fighters.get(0) : null;
+        return fighters.len() == 1 ? fighters.get(0) : null;
     }
 
 }

@@ -17,6 +17,11 @@ public class JoinArgument extends Argument {
     public void execute(CommandSender sender, String[] args) {
         Player player = (Player) sender;
         FightPlugin plugin = FightPlugin.getInstance();
+        if(!plugin.getLocationMap().containsKey("lobby")) {
+            player.sendMessage(ChatColor.RED + "Não foi possível definir o local de teletransporte.");
+            return;
+        }
+
         Event event = plugin.getEvent();
         if(event.isStarted()) {
             player.sendMessage(" ");
@@ -36,7 +41,7 @@ public class JoinArgument extends Argument {
         eventPlayer = new EventPlayer(player);
         eventPlayer.setStoredInventoryContent(player.getInventory().getContents());
         eventPlayer.setPlaying(false);
-        event.getFighters().add(eventPlayer);
+        event.getFighters().append(eventPlayer);
         player.getInventory().clear();
         // TODO: Teleportar para a entrada.
         // TODO: Fazer uma mensagem de entrada empolgante.
