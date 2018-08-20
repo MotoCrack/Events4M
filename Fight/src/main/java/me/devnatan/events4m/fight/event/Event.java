@@ -2,7 +2,11 @@ package me.devnatan.events4m.fight.event;
 
 import lombok.Getter;
 import lombok.Setter;
+import me.devnatan.events4m.fight.FightPlugin;
 import me.devnatan.events4m.fight.java.GenericTypeArray;
+import org.bukkit.Location;
+
+import java.util.Map;
 
 public class Event {
 
@@ -30,9 +34,13 @@ public class Event {
     }
 
     public void forceStop() {
-        fighters.stream().filter(ep -> ep.getPlayer().isOnline()).forEach(ep -> {
-            // TODO: Teleportar para a saída do evento
-        });
+        Map<String, Location> locationMap = FightPlugin.getInstance().getLocationMap();
+        if(locationMap.containsKey("saida")) {
+            fighters.stream().filter(ep -> ep.getPlayer().isOnline()).forEach(ep -> {
+                ep.getPlayer().teleport(locationMap.get("saida"));
+            });
+        }
+        reset();
     }
 
     private void reset() {

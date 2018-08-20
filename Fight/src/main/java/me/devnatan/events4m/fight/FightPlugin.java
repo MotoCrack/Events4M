@@ -3,10 +3,14 @@ package me.devnatan.events4m.fight;
 import lombok.Getter;
 import lombok.Setter;
 import me.devnatan.events4m.fight.argument.JoinArgument;
+import me.devnatan.events4m.fight.argument.StartArgument;
+import me.devnatan.events4m.fight.argument.StopArgument;
 import me.devnatan.events4m.fight.command.FightCommand;
 import me.devnatan.events4m.fight.event.Event;
+import me.devnatan.events4m.fight.listener.PlayerListener;
 import me.devnatan.events4m.fight.util.LocationUtil;
 import net.milkbowl.vault.economy.Economy;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -75,8 +79,11 @@ public final class FightPlugin extends JavaPlugin {
 
     private void plugin() {
         new FightCommand(
-                new JoinArgument()
+                new JoinArgument(),
+                new StartArgument(),
+                new StopArgument()
         ).register(this, "fight");
+        Bukkit.getPluginManager().registerEvents(new PlayerListener(), this);
     }
 
 }
