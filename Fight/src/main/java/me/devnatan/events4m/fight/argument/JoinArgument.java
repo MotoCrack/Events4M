@@ -50,7 +50,7 @@ public class JoinArgument extends Argument {
         eventPlayer = new EventPlayer(player);
         eventPlayer.setStoredInventoryContent(player.getInventory().getContents());
         eventPlayer.setPlaying(false);
-        event.getFighters().append(eventPlayer);
+        event.getFighters().add(eventPlayer);
         player.getInventory().clear();
         player.teleport(locationMap.get("lobby"));
         // TODO: Fazer uma mensagem de entrada empolgante.
