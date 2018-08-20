@@ -9,7 +9,7 @@ public abstract class Argument implements Executable {
     @Getter private final int target;
     @Getter protected boolean consoleExecutable = false;
 
-    public Argument(String name, int target) {
+    Argument(String name, int target) {
         this.name = name;
         this.target = target;
     }

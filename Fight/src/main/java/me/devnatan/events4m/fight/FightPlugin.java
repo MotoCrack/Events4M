@@ -2,12 +2,14 @@ package me.devnatan.events4m.fight;
 
 import lombok.Getter;
 import lombok.Setter;
+import me.devnatan.events4m.fight.argument.CurrentArgument;
 import me.devnatan.events4m.fight.argument.JoinArgument;
 import me.devnatan.events4m.fight.argument.StartArgument;
 import me.devnatan.events4m.fight.argument.StopArgument;
 import me.devnatan.events4m.fight.command.FightCommand;
 import me.devnatan.events4m.fight.event.Event;
 import me.devnatan.events4m.fight.listener.PlayerListener;
+import me.devnatan.events4m.fight.task.AbstractTask;
 import me.devnatan.events4m.fight.util.LocationUtil;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
@@ -16,6 +18,7 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.Map;
 
 public final class FightPlugin extends JavaPlugin {
@@ -24,9 +27,12 @@ public final class FightPlugin extends JavaPlugin {
     @Getter private Economy economy;
     @Getter private Map<String, Location> locationMap;
     @Getter private Event event;
+    @Getter private Map<String, AbstractTask> taskMap;
 
     public void onLoad() {
         setInstance(this);
+        locationMap = new HashMap<>();
+        taskMap = new HashMap<>();
     }
 
     public void onEnable() {
@@ -81,7 +87,8 @@ public final class FightPlugin extends JavaPlugin {
         new FightCommand(
                 new JoinArgument(),
                 new StartArgument(),
-                new StopArgument()
+                new StopArgument(),
+                new CurrentArgument()
         ).register(this, "fight");
         Bukkit.getPluginManager().registerEvents(new PlayerListener(), this);
     }

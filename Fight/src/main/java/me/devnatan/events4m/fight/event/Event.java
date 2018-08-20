@@ -6,12 +6,16 @@ import me.devnatan.events4m.fight.FightPlugin;
 import me.devnatan.events4m.fight.java.GenericTypeArray;
 import org.bukkit.Location;
 
+import java.util.Arrays;
 import java.util.Map;
 
 public class Event {
 
     @Getter @Setter private boolean started = false;
-    @Getter private GenericTypeArray<EventPlayer> fighters = new GenericTypeArray<>(0);
+
+    @Getter private int currentIndex = 0;
+    @Getter private EventPlayer[] currentArray = new EventPlayer[2];
+    @Getter private GenericTypeArray<EventPlayer[]> fighters = new GenericTypeArray<>(0);
 
     public void start() {
         if(started)
@@ -36,9 +40,9 @@ public class Event {
     public void forceStop() {
         Map<String, Location> locationMap = FightPlugin.getInstance().getLocationMap();
         if(locationMap.containsKey("saida")) {
-            fighters.stream().filter(ep -> ep.getPlayer().isOnline()).forEach(ep -> {
-                ep.getPlayer().teleport(locationMap.get("saida"));
-            });
+            fighters.stream().forEach(a -> Arrays.stream(a).filter(it -> it.getPlayer().isOnline()).forEach(it -> {
+                it.getPlayer().teleport(locationMap.get("saida"));
+            }));
         }
         reset();
     }
@@ -49,7 +53,9 @@ public class Event {
     }
 
     private EventPlayer getWinner() {
-        return fighters.len() == 1 ? fighters.get(0) : null;
+        // TODO: Refazer
+        // return fighters.len() == 1 ? fighters.get(0) : null;
+        return null;
     }
 
 }
