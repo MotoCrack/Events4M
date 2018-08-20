@@ -2,6 +2,7 @@ package me.devnatan.events4m.fight;
 
 import lombok.Getter;
 import lombok.Setter;
+import me.devnatan.events4m.fight.event.Event;
 import me.devnatan.events4m.fight.util.LocationUtil;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Location;
@@ -16,6 +17,7 @@ public final class FightPlugin extends JavaPlugin {
     @Getter @Setter private static FightPlugin instance;
     @Getter private Economy economy;
     @Getter private Map<String, Location> locationMap;
+    @Getter private Event event;
 
     public void onLoad() {
         setInstance(this);
@@ -25,6 +27,12 @@ public final class FightPlugin extends JavaPlugin {
         root();
         economy();
         conf();
+    }
+
+    public void onDisable() {
+        if(event != null && event.isStarted()) {
+            event.forceStop();
+        }
     }
 
     private void root() {
