@@ -25,6 +25,7 @@ public class BroadcastingTask extends AbstractTask {
             } else {
                 event.forceStop();
             }
+            stop();
             return;
         }
 

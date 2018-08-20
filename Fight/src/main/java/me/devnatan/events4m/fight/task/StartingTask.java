@@ -30,6 +30,7 @@ public class StartingTask extends AbstractTask {
             } else {
                 event.forceStop();
             }
+            stop();
             return;
         }
 

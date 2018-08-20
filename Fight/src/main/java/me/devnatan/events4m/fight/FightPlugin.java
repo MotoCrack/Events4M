@@ -103,7 +103,7 @@ public final class FightPlugin extends JavaPlugin {
         taskMap.forEach((k, t) -> {
             if(t.isRunning()) t.stop();
         });
-        
+
         taskMap.put("starting", new StartingTask());
         taskMap.put("broadcasting", new BroadcastingTask());
         taskMap.put("fighting", new FightingTask());
