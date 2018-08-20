@@ -14,13 +14,11 @@ public class GenericTypeArray<E> {
         elements = new Object[i];
     }
 
-    public E append(E e) {
+    public int append(E e) {
         final int N = elements.length;
         elements = Arrays.copyOf(elements, N + 1);
         elements[N] = e;
-        return e;
-
-        // Também pode ser usado: ArrayUtils.add(...)
+        return N;
     }
 
     public int len() {
