@@ -2,6 +2,8 @@ package me.devnatan.events4m.fight;
 
 import lombok.Getter;
 import lombok.Setter;
+import me.devnatan.events4m.fight.argument.JoinArgument;
+import me.devnatan.events4m.fight.command.FightCommand;
 import me.devnatan.events4m.fight.event.Event;
 import me.devnatan.events4m.fight.util.LocationUtil;
 import net.milkbowl.vault.economy.Economy;
@@ -27,6 +29,8 @@ public final class FightPlugin extends JavaPlugin {
         root();
         economy();
         conf();
+        event();
+        plugin();
     }
 
     public void onDisable() {
@@ -63,6 +67,16 @@ public final class FightPlugin extends JavaPlugin {
         if(getConfig().contains("locations")) {
             locationMap = LocationUtil.load(getConfig().getConfigurationSection("locations"));
         }
+    }
+
+    private void event() {
+        event = new Event();
+    }
+
+    private void plugin() {
+        new FightCommand(
+                new JoinArgument()
+        ).register(this, "fight");
     }
 
 }
