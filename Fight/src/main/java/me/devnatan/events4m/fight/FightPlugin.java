@@ -7,10 +7,14 @@ import me.devnatan.events4m.fight.command.FightCommand;
 import me.devnatan.events4m.fight.event.Event;
 import me.devnatan.events4m.fight.listener.PlayerListener;
 import me.devnatan.events4m.fight.task.AbstractTask;
+import me.devnatan.events4m.fight.task.BroadcastingTask;
+import me.devnatan.events4m.fight.task.FightingTask;
+import me.devnatan.events4m.fight.task.StartingTask;
 import me.devnatan.events4m.fight.util.LocationUtil;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -81,6 +85,7 @@ public final class FightPlugin extends JavaPlugin {
     }
 
     private void plugin() {
+        tasks();
         new FightCommand(
                 new JoinArgument(),
                 new StartArgument(),
@@ -94,8 +99,20 @@ public final class FightPlugin extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new PlayerListener(), this);
     }
 
-    public void saveLocation(String key) {
+    public void tasks() {
+        taskMap.forEach((k, t) -> {
+            if(t.isRunning()) t.stop();
+        });
+        
+        taskMap.put("starting", new StartingTask());
+        taskMap.put("broadcasting", new BroadcastingTask());
+        taskMap.put("fighting", new FightingTask());
+    }
 
+    public void saveLocation(String key) {
+        ConfigurationSection cs = getConfig().contains("locations") ? getConfig().getConfigurationSection("locations") : getConfig().createSection("locations");
+        cs.set(key, locationMap.get(key));
+        saveConfig();
     }
 
 }

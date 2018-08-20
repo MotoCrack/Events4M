@@ -2,6 +2,9 @@ package me.devnatan.events4m.fight.task;
 
 import lombok.Getter;
 import lombok.Setter;
+import me.devnatan.events4m.fight.FightPlugin;
+import me.devnatan.events4m.fight.event.Event;
+import org.bukkit.Bukkit;
 
 public class BroadcastingTask extends AbstractTask {
 
@@ -15,11 +18,17 @@ public class BroadcastingTask extends AbstractTask {
     void schedule() {
         broadcasts--;
         if(broadcasts == 0) {
-            // TODO: verificar se há jogadores suficientes participando e iniciar
+            FightPlugin plugin = FightPlugin.getInstance();
+            Event event = plugin.getEvent();
+            if(event.getFighters().len() >= 10) {
+                plugin.getTaskMap().get("starting").start(plugin);
+            } else {
+                event.forceStop();
+            }
             return;
         }
 
-        // TODO: Divulgar
+        Bukkit.broadcastMessage("Iniciando, anúncio numero " + broadcasts);
     }
 
 }

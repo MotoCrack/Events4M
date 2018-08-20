@@ -4,11 +4,12 @@ import lombok.Getter;
 import lombok.Setter;
 import me.devnatan.events4m.fight.FightPlugin;
 import me.devnatan.events4m.fight.java.GenericTypeArray;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-import java.util.Arrays;
 import java.util.Map;
+import java.util.function.Consumer;
 
 public class Event {
 
@@ -16,7 +17,8 @@ public class Event {
 
     @Getter private int currentIndex = 0;
     @Getter private EventPlayer[] currentArray = new EventPlayer[2];
-    @Getter private GenericTypeArray<EventPlayer[]> fighters = new GenericTypeArray<>(0);
+    @Getter private GenericTypeArray<EventPlayer> fighters = new GenericTypeArray<>(0);
+    @Getter private GenericTypeArray<EventPlayer[]> subfighters = new GenericTypeArray<>(0);
 
     public void start() {
         if(started)
@@ -41,9 +43,7 @@ public class Event {
     public void forceStop() {
         Map<String, Location> locationMap = FightPlugin.getInstance().getLocationMap();
         if(locationMap.containsKey("saida")) {
-            fighters.stream().forEach(a -> Arrays.stream(a).filter(it -> it.getPlayer().isOnline()).forEach(it -> {
-                it.getPlayer().teleport(locationMap.get("saida"));
-            }));
+            fighters.stream().filter(it -> it.getPlayer().isOnline()).forEach(it -> it.getPlayer().teleport(locationMap.get("saida")));
         }
         reset();
     }
@@ -51,30 +51,30 @@ public class Event {
     private void reset() {
         started = false;
         fighters.reset(0);
+        subfighters.reset(0);
+        FightPlugin.getInstance().tasks();
     }
 
-    public void append(EventPlayer eventPlayer) {
-        if(fighters.len() == 0) {
-            fighters.append(new EventPlayer[] { eventPlayer });
-        } else {
-            for(EventPlayer[] players : fighters.getElements()) {
-                if(players[0] == null) {
-                    players[0] = eventPlayer;
-                    break;
-                }
-
-                if(players[1] == null) {
-                    players[1] = eventPlayer;
-                    break;
-                }
-            }
+    public void subdivide(Consumer<EventPlayer> then) {
+        EventPlayer remaining = fighters.remaining(2);
+        if(remaining != null) {
+            fighters.remove(remaining);
+            Bukkit.broadcastMessage(remaining.getPlayer().getName() + " removido por ser quem sobrou ksksks.");
+            Bukkit.broadcastMessage("Agora temos um total de " + fighters.len() + " participando.");
         }
+        then.accept(remaining);
     }
 
     public EventPlayer getPlayer(Player player) {
-        for(EventPlayer[] players : fighters.getElements()) {
-            for(EventPlayer player1 : players) {
-                if(player1.getPlayer().equals(player)) return player1;
+        return fighters.stream().filter(it -> it.getPlayer().equals(player)).findFirst().orElse(null);
+    }
+
+    public EventPlayer getPlayerDuo(Player player) {
+        for(EventPlayer[] players : subfighters.getElements()) {
+            if(players[0] == player) {
+                return players[1];
+            } else if(players[1] == player) {
+                return players[0];
             }
         } return null;
     }
