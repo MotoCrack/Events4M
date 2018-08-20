@@ -8,10 +8,10 @@ import java.util.stream.Stream;
 
 public class GenericTypeArray<E> {
 
-    @Getter @Setter private Object[] elements;
+    @Getter @Setter private E[] elements;
 
     public GenericTypeArray(int i) {
-        elements = new Object[i];
+        elements = (E[]) new Object[i];
     }
 
     public int append(E e) {
@@ -34,11 +34,11 @@ public class GenericTypeArray<E> {
     }
 
     public void reset(int i) {
-        elements = new Object[i];
+        elements = (E[]) new Object[i];
     }
 
     public Stream<E> stream() {
-        return (Stream<E>) Arrays.stream(elements);
+        return Arrays.stream(elements);
     }
 
 }

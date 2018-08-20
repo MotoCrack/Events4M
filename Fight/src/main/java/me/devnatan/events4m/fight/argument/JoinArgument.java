@@ -41,7 +41,7 @@ public class JoinArgument extends Argument {
             return;
         }
 
-        EventPlayer eventPlayer = event.getFighters().stream().filter(it -> it.getPlayer().equals(player)).findFirst().orElse(null);
+        EventPlayer eventPlayer = event.getPlayer(player);
         if(eventPlayer != null) {
             player.sendMessage(ChatColor.RED + "Você já está participando do evento Fight.");
             return;
@@ -50,7 +50,7 @@ public class JoinArgument extends Argument {
         eventPlayer = new EventPlayer(player);
         eventPlayer.setStoredInventoryContent(player.getInventory().getContents());
         eventPlayer.setPlaying(false);
-        event.getFighters().append(eventPlayer);
+        event.append(eventPlayer);
         player.getInventory().clear();
         player.teleport(locationMap.get("lobby"));
         // TODO: Fazer uma mensagem de entrada empolgante.
