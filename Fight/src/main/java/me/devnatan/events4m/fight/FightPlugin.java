@@ -2,10 +2,7 @@ package me.devnatan.events4m.fight;
 
 import lombok.Getter;
 import lombok.Setter;
-import me.devnatan.events4m.fight.argument.CurrentArgument;
-import me.devnatan.events4m.fight.argument.JoinArgument;
-import me.devnatan.events4m.fight.argument.StartArgument;
-import me.devnatan.events4m.fight.argument.StopArgument;
+import me.devnatan.events4m.fight.argument.*;
 import me.devnatan.events4m.fight.command.FightCommand;
 import me.devnatan.events4m.fight.event.Event;
 import me.devnatan.events4m.fight.listener.PlayerListener;
@@ -88,9 +85,17 @@ public final class FightPlugin extends JavaPlugin {
                 new JoinArgument(),
                 new StartArgument(),
                 new StopArgument(),
-                new CurrentArgument()
+                new CurrentArgument(),
+                new SetEntradaArgument(),
+                new SetLobbyArgument(),
+                new SetSaidaArgument(),
+                new SetCamaroteArgument()
         ).register(this, "fight");
         Bukkit.getPluginManager().registerEvents(new PlayerListener(), this);
+    }
+
+    public void saveLocation(String key) {
+
     }
 
 }

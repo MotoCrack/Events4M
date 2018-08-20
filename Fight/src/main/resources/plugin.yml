@@ -2,7 +2,7 @@ main: ${project.parent.groupId}.fight.FightPlugin
 name: ${project.artifactId}
 version: ${project.version}
 authors: [DevNatan, ClhoeMiss]
-depend: [Vault]
+softdepend: [Vault, PlaceholderAPI]
 website: https://github.com/MotoCrack/Events4M
 description: ${project.description}
 
@@ -20,6 +20,7 @@ permissions:
         events4m.fight.setentrada: true
         events4m.fight.setlobby: true
         events4m.fight.setsaida: true
+        events4m.fight.setcamarote: true
   events4m.fight.iniciar:
     description: Iniciar o evento Fight.
   events4m.fight.parar:
@@ -30,3 +31,5 @@ permissions:
     description: Definir o local de lobby do evento Fight.
   events4m.fight.setsaida:
     description: Definir o local de saida do evento Fight.
+  events4m.fight.setcamarote:
+    description: Definir o local de camarote do evento Fight.
