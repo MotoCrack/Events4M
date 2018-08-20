@@ -12,6 +12,7 @@
     <modules>
         <module>Quiz</module>
         <module>Bolão</module>
+        <module>Fight</module>
     </modules>
     <packaging>pom</packaging>
     <inceptionYear>2018</inceptionYear>

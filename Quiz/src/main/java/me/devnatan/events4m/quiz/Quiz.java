@@ -14,14 +14,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.Random;
 
 public final class Quiz extends JavaPlugin {
 
     @Getter private static Quiz instance;
     @Getter private Event event;
-    @Getter private Map<String, String> messages;
     @Getter private Economy economy;
     @Getter private Reward reward;
 

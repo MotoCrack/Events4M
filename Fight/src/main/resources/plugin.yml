@@ -1,0 +1,32 @@
+main: ${project.parent.groupId}.fight.FightPlugin
+name: ${project.artifactId}
+version: ${project.version}
+authors: [DevNatan, ClhoeMiss]
+depend: [Vault]
+website: https://github.com/MotoCrack/Events4M
+description: ${project.description}
+
+commands:
+  fight:
+    description: Comando principal do evento Fight.
+    usage: /fight (argumentos)
+
+permissions:
+  events4m.fight.*:
+      description: Engloba todas as permissoes do evento Fight.
+      children:
+        events4m.fight.iniciar: true
+        events4m.fight.parar: true
+        events4m.fight.setentrada: true
+        events4m.fight.setlobby: true
+        events4m.fight.setsaida: true
+  events4m.fight.iniciar:
+    description: Iniciar o evento Fight.
+  events4m.fight.parar:
+    description: Interromper o evento Fight.
+  events4m.fight.setentrada:
+    description: Definir os locais de entrada do evento Fight.
+  events4m.fight.setlobby:
+    description: Definir o local de lobby do evento Fight.
+  events4m.fight.setsaida:
+    description: Definir o local de saida do evento Fight.
