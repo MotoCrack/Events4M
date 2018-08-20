@@ -32,7 +32,7 @@ public class GenericTypeArray<E> {
     }
 
     public E remaining(int i) {
-        return (elements.length % i == 0) ? null : (E) elements[elements.length + 1];
+        return (elements.length % i == 0) ? null : (E) elements[elements.length - 1];
     }
 
     public void reset(int i) {
