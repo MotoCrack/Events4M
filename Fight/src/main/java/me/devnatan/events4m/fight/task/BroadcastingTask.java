@@ -20,15 +20,18 @@ public class BroadcastingTask extends AbstractTask {
         if(broadcasts == 0) {
             FightPlugin plugin = FightPlugin.getInstance();
             Event event = plugin.getEvent();
-            if(event.getFighters().len() >= 10) {
+            if(event.getFighters().size() >= 10)
                 plugin.getTaskMap().get("starting").start(plugin);
-            } else {
+            else {
                 event.forceStop();
+                return;
             }
+
             stop();
             return;
         }
 
+        // debug
         Bukkit.broadcastMessage("Iniciando, anúncio numero " + broadcasts);
     }
 

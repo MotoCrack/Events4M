@@ -17,11 +17,14 @@ public class StartingTask extends AbstractTask {
         FightPlugin plugin = FightPlugin.getInstance();
         Event event = plugin.getEvent();
         if(elapsed == DURATION) {
-            if(event.getFighters().len() >= 10) {
+            if(event.getFighters().size() >= 10) {
+                // debug
                 Bukkit.broadcastMessage("Distribuindo jogadores.");
                 event.subdivide(remaining -> {
+                    // debug
                     Bukkit.broadcastMessage("Jogadores sub-divividos");
                     if(remaining != null) {
+                        // debug
                         Bukkit.broadcastMessage("O resto: " + remaining.getPlayer().getName());
                     }
 
@@ -30,10 +33,12 @@ public class StartingTask extends AbstractTask {
             } else {
                 event.forceStop();
             }
+
             stop();
             return;
         }
 
+        // debug
         Bukkit.broadcastMessage("Iniciando sá praga em " + (DURATION - elapsed) + "...");
     }
 

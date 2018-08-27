@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 public class Event {
@@ -21,6 +22,7 @@ public class Event {
     @Getter private EventPlayer[] currentArray = new EventPlayer[2];
     @Getter private List<EventPlayer> fighters = new LinkedList<>();
     @Getter private List<EventPlayer[]> subfighters = new LinkedList<>();
+    @Getter @Setter private EventPlayer winner;
 
     public void start() {
         if(started)
@@ -29,11 +31,10 @@ public class Event {
         // TODO: Iniciar task de anúncios
     }
 
-    public void stop() {
+    public void stop(EventPlayer winner) {
         if(!started)
             throw new IllegalStateException("Event must be started");
 
-        EventPlayer winner = getWinner();
         if(winner == null)
             throw new NullPointerException("Winner cannot be null");
 
@@ -67,24 +68,21 @@ public class Event {
         then.accept(remaining);
     }
 
+    public void next(BiConsumer<Integer, EventPlayer[]> next, Consumer<EventPlayer> finish) {
+        if(currentIndex + 1 > subfighters.size()) {
+            if(winner == null)
+                throw new NullPointerException("Next player cannot be null.");
+            finish.accept(winner);
+        } else {
+            EventPlayer[] array = subfighters.get(currentIndex += 1);
+            if(array == null)
+                throw new NullPointerException("Next duo cannot be null.");
+            next.accept(currentIndex, array);
+        }
+    }
+
     public EventPlayer getPlayer(Player player) {
         return fighters.stream().filter(it -> it.getPlayer().equals(player)).findFirst().orElse(null);
-    }
-
-    public EventPlayer getPlayerDuo(Player player) {
-        for(EventPlayer[] players : subfighters) {
-            if(players[0] == player) {
-                return players[1];
-            } else if(players[1] == player) {
-                return players[0];
-            }
-        } return null;
-    }
-
-    private EventPlayer getWinner() {
-        // TODO: Refazer
-        // return fighters.len() == 1 ? fighters.get(0) : null;
-        return null;
     }
 
 }
