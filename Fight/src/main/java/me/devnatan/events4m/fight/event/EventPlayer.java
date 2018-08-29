@@ -1,16 +1,18 @@
 package me.devnatan.events4m.fight.event;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+@EqualsAndHashCode
+@Data
 public class EventPlayer {
 
-    @Getter private final Player player;
-    @Getter @Setter private boolean playing;
-    @Getter @Setter private int elapsed;
-    @Getter @Setter private ItemStack[] storedInventoryContent;
+    private final Player player;
+    private boolean playing;
+    private int elapsed;
+    private transient ItemStack[] armorContent, inventoryContent, extraContent;
 
     public EventPlayer(Player player) {
         this.player = player;

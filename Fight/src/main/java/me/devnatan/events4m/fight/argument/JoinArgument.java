@@ -48,7 +48,9 @@ public class JoinArgument extends Argument {
         }
 
         eventPlayer = new EventPlayer(player);
-        eventPlayer.setStoredInventoryContent(player.getInventory().getContents());
+        eventPlayer.setArmorContent(player.getInventory().getArmorContents());
+        eventPlayer.setInventoryContent(player.getInventory().getContents());
+        eventPlayer.setExtraContent(player.getInventory().getExtraContents());
         eventPlayer.setPlaying(false);
         event.getFighters().add(eventPlayer);
         player.getInventory().clear();

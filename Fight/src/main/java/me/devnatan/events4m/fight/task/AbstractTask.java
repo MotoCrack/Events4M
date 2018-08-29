@@ -7,13 +7,13 @@ import org.bukkit.scheduler.BukkitTask;
 
 public abstract class AbstractTask {
 
-    @Getter protected final long step;
-    @Getter protected final boolean sync;
-    @Getter protected int elapsed;
-    @Getter protected BukkitTask task;
-    @Getter protected boolean running;
+    @Getter private boolean running;
+    @Getter private int elapsed;
+    private final long step;
+    private final boolean sync;
+    private BukkitTask task;
 
-    public AbstractTask(long step, boolean sync) {
+    AbstractTask(long step, boolean sync) {
         this.step = step;
         this.sync = sync;
         running = false;

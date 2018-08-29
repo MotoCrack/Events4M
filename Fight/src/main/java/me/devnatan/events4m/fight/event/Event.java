@@ -17,22 +17,27 @@ import java.util.function.Consumer;
 public class Event {
 
     private boolean started = false;
+    private boolean starting = false;
 
     private int currentIndex = 0;
     private EventPlayer[] currentArray = new EventPlayer[2];
     private final List<EventPlayer> fighters = new LinkedList<>();
-    private final List<EventPlayer[]> subfighters = new LinkedList<>();
+    private final List<EventPlayer[]> subFighters = new LinkedList<>();
     private EventPlayer winner;
 
     public void start() {
         if(started)
             throw new IllegalStateException("Event is already started");
 
-        // TODO: Iniciar task de anúncios
+        if(starting)
+            throw new IllegalStateException("Event is already starting");
+
+        FightPlugin plugin = FightPlugin.getInstance();
+        plugin.getTaskMap().get("broadcasting").start(plugin);
     }
 
     public void stop(EventPlayer winner) {
-        if(!started)
+        if(!started || !starting)
             throw new IllegalStateException("Event must be started");
 
         if(winner == null)
@@ -53,8 +58,12 @@ public class Event {
 
     private void reset() {
         started = false;
+        starting = false;
+        currentIndex = 0;
+        currentArray = new EventPlayer[2];
         fighters.clear();
-        subfighters.clear();
+        subFighters.clear();
+        winner = null;
         FightPlugin.getInstance().tasks();
     }
 
@@ -64,20 +73,28 @@ public class Event {
             fighters.remove(remaining);
             Bukkit.broadcastMessage(remaining.getPlayer().getName() + " removido por ser quem sobrou ksksks.");
             Bukkit.broadcastMessage("Agora temos um total de " + fighters.size() + " participando.");
+            then.accept(remaining);
         }
-        then.accept(remaining);
     }
 
     public void next(BiConsumer<Integer, EventPlayer[]> next, Consumer<EventPlayer> finish) {
-        if(currentIndex + 1 > subfighters.size()) {
+        if(currentIndex + 1 > subFighters.size()) {
             if(winner == null)
                 throw new NullPointerException("Next player cannot be null.");
             finish.accept(winner);
         } else {
-            EventPlayer[] array = subfighters.get(currentIndex += 1);
+            EventPlayer[] array = subFighters.get(currentIndex += 1);
             if(array == null)
                 throw new NullPointerException("Next duo cannot be null.");
             next.accept(currentIndex, array);
+        }
+    }
+
+    public void safeRemoveIfPresent(Player player) {
+        EventPlayer ep = getPlayer(player);
+        if(ep != null) {
+            fighters.removeIf(it -> it.equals(ep));
+            // TODO: Devolver itens
         }
     }
 

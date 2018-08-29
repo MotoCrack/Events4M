@@ -1,5 +1,6 @@
 package me.devnatan.events4m.fight.listener;
 
+import me.devnatan.events4m.fight.FightPlugin;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -11,22 +12,22 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void on(PlayerQuitEvent e) {
-        // TODO: Remover o jogador do evento.
+        FightPlugin.getInstance().getEvent().safeRemoveIfPresent(e.getPlayer());
     }
 
     @EventHandler
     public void on(PlayerKickEvent e) {
-        // TODO: Remover o jogador do evento
+        FightPlugin.getInstance().getEvent().safeRemoveIfPresent(e.getPlayer());
     }
 
     @EventHandler
     public void on(PlayerTeleportEvent e) {
-        // TODO: Remover o jogador do evento.
+        FightPlugin.getInstance().getEvent().safeRemoveIfPresent(e.getPlayer());
     }
 
     @EventHandler
     public void on(PlayerDeathEvent e) {
-        // TODO: Verificar o jogador no evento ou remove-lo.
+        FightPlugin.getInstance().getEvent().safeRemoveIfPresent(e.getEntity());
     }
 
 }
