@@ -84,6 +84,7 @@ public final class FightPlugin extends JavaPlugin {
         tasks();
         new FightCommand(
                 new JoinArgument(),
+                new ForceStartArgument(),
                 new StartArgument(),
                 new StopArgument(),
                 new CurrentArgument(),
@@ -107,7 +108,7 @@ public final class FightPlugin extends JavaPlugin {
 
     public void saveLocation(String key) {
         ConfigurationSection cs = getConfig().contains("locations") ? getConfig().getConfigurationSection("locations") : getConfig().createSection("locations");
-        cs.set(key, locationMap.get(key));
+        cs.set(key, locationMap.get(key).serialize());
         saveConfig();
     }
 

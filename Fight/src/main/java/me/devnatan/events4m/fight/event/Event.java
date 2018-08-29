@@ -2,8 +2,10 @@ package me.devnatan.events4m.fight.event;
 
 import lombok.Data;
 import me.devnatan.events4m.fight.FightPlugin;
+import me.devnatan.events4m.fight.task.BroadcastingTask;
 import me.devnatan.events4m.fight.util.CollectionUtil;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -35,6 +37,7 @@ public class Event {
         starting = true;
         FightPlugin plugin = FightPlugin.getInstance();
         plugin.getTaskMap().get("broadcasting").start(plugin);
+        BroadcastingTask.broadcast();
     }
 
     public void stop(EventPlayer winner) {
@@ -44,8 +47,8 @@ public class Event {
         if(winner == null)
             throw new NullPointerException("Winner cannot be null");
 
-        // TODO: Enviar premio para o vencedor e teleportar para saída do evento
-
+        // TODO: Enviar premio para o vencedor
+        winner.getPlayer().teleport(FightPlugin.getInstance().getLocationMap().get("saida"));
         reset();
     }
 
@@ -54,6 +57,10 @@ public class Event {
         if(locationMap.containsKey("saida")) {
             fighters.stream().filter(it -> it.getPlayer().isOnline()).forEach(it -> it.getPlayer().teleport(locationMap.get("saida")));
         }
+        Bukkit.broadcastMessage(" ");
+        Bukkit.broadcastMessage(" " + ChatColor.AQUA + "Evento " + ChatColor.BOLD + "FIGHT " + ChatColor.AQUA + " interrompido!");
+        Bukkit.broadcastMessage(" " + ChatColor.AQUA + "Não foi possível prosseguir com o evento.");
+        Bukkit.broadcastMessage(" ");
         reset();
     }
 

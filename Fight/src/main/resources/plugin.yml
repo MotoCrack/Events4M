@@ -16,6 +16,7 @@ permissions:
       description: Engloba todas as permissoes do evento Fight.
       children:
         events4m.fight.iniciar: true
+        events4m.fight.finiciar: true
         events4m.fight.parar: true
         events4m.fight.setentrada: true
         events4m.fight.setlobby: true
@@ -23,6 +24,8 @@ permissions:
         events4m.fight.setcamarote: true
   events4m.fight.iniciar:
     description: Iniciar o evento Fight.
+  events4m.fight.finiciar:
+    description: Força o inicio do evento Fight.
   events4m.fight.parar:
     description: Interromper o evento Fight.
   events4m.fight.setentrada:

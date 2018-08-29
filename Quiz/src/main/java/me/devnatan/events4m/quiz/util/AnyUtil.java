@@ -58,9 +58,9 @@ public class AnyUtil {
             return false;
         }
 
-        Iterator<String> i1= l1.iterator();
-        Iterator<String> i2= l2.iterator();
-        while(i1.hasNext()) {
+        Iterator<String> i1 = l1.iterator();
+        Iterator<String> i2 = l2.iterator();
+        while(i1.hasNext() && i2.hasNext()) {
             if (!i1.next().equalsIgnoreCase(i2.next())) {
                 return false;
             }

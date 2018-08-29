@@ -3,6 +3,7 @@
 # Desenvolvido por DevNatan.
 # Sugerido por ClhoeMiss.
 #
+locations: {}
 mysql:
   use: false
   host: localhost
