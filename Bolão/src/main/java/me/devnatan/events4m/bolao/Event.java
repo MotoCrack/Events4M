@@ -7,6 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -83,7 +84,13 @@ public class Event implements Runnable {
             announce(" &aO vencedor levou todo o dinheiro acumulado.");
             announce(" &aPara quem não teve sorte desta vez, quem sabe na próxima!");
             announce(" ");
-            Bolao.getInstance().getEconomy().depositPlayer(winner, getTotalAmount());
+            Bolao bolao = Bolao.getInstance();
+            try {
+                bolao.getStorage().insert(winner.getUniqueId(), winner.getName(), System.currentTimeMillis(), bolao.getAmount(), getTotalAmount());
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            bolao.getEconomy().depositPlayer(winner, getTotalAmount());
         }
 
         players.clear();

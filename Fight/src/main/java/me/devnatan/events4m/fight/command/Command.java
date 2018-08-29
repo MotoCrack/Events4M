@@ -14,7 +14,7 @@ public abstract class Command implements CommandExecutor, Executable {
     @Getter private boolean registered = false;
     @Getter private Argument[] arguments;
 
-    public Command(Argument... arguments) {
+    Command(Argument... arguments) {
         this.arguments = arguments;
     }
 

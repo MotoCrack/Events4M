@@ -25,7 +25,7 @@ public class StartArgument extends Argument {
 
         FightPlugin plugin = FightPlugin.getInstance();
         Event event = plugin.getEvent();
-        if(event.isStarted()) {
+        if(event.isStarted() || event.isStarting()) {
             player.sendMessage(ChatColor.RED + "O evento Fight já está acontecendo.");
             player.sendMessage(ChatColor.RED + "Use /fight parar: para interrompe-lo.");
             return;

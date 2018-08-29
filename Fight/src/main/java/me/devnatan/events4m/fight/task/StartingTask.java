@@ -6,8 +6,6 @@ import org.bukkit.Bukkit;
 
 public class StartingTask extends AbstractTask {
 
-    private final int DURATION = 10;
-
     public StartingTask() {
         super(20L, false);
     }
@@ -16,6 +14,7 @@ public class StartingTask extends AbstractTask {
     void schedule() {
         FightPlugin plugin = FightPlugin.getInstance();
         Event event = plugin.getEvent();
+        final int DURATION = 10;
         if(elapsed == DURATION) {
             if(event.getFighters().size() >= 10) {
                 // debug
@@ -30,9 +29,7 @@ public class StartingTask extends AbstractTask {
 
                     plugin.getTaskMap().get("fighting").start(plugin);
                 });
-            } else {
-                event.forceStop();
-            }
+            } else event.forceStop();
 
             stop();
             return;

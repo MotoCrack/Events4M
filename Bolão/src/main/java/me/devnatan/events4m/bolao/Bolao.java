@@ -1,5 +1,6 @@
 package me.devnatan.events4m.bolao;
 
+import lombok.Data;
 import lombok.Getter;
 import me.devnatan.events4m.bolao.argument.Argument;
 import me.devnatan.events4m.bolao.argument.LeaveArgument;
@@ -12,14 +13,17 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
+@Data
 public final class Bolao extends JavaPlugin {
 
     @Getter private static Bolao instance;
-    @Getter private double amount;
-    @Getter private Event event;
-    @Getter private Economy economy;
+    private double amount;
+    private Event event;
+    private Economy economy;
+    private Storage storage;
 
     public void onLoad() {
         instance = this;
@@ -29,6 +33,7 @@ public final class Bolao extends JavaPlugin {
         try {
             root();
             economy();
+            storage();
             event();
             plugin();
         } catch (Exception e) {
@@ -39,6 +44,14 @@ public final class Bolao extends JavaPlugin {
     public void onDisable() {
         if(event != null && event.isStarted()) {
             event.interrupt();
+        }
+
+        if(storage != null) {
+            try {
+                storage.disconnect();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -67,6 +80,12 @@ public final class Bolao extends JavaPlugin {
         }
 
         economy = rsp.getProvider();
+    }
+
+    private void storage() {
+        ConfigurationSection cs = getConfig().getConfigurationSection("mysql");
+        storage = new Storage();
+        storage.connect(this, cs.getString("host"), cs.getString("user"), cs.getString("password"), cs.getString("database"), !cs.getBoolean("use"));
     }
 
     private void event() {

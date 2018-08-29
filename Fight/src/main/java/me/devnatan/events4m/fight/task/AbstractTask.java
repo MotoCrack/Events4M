@@ -8,7 +8,7 @@ import org.bukkit.scheduler.BukkitTask;
 public abstract class AbstractTask {
 
     @Getter private boolean running;
-    @Getter private int elapsed;
+    @Getter protected int elapsed;
     private final long step;
     private final boolean sync;
     private BukkitTask task;
@@ -29,6 +29,7 @@ public abstract class AbstractTask {
                 schedule();
             }
         };
+
         task = sync ?
                 Bukkit.getScheduler().runTaskTimer(plugin, runnable, step, step) :
                 Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, runnable, step, step);

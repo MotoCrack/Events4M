@@ -3,3 +3,9 @@
 # Desenvolvido por DevNatan.
 # Sugerido por ClhoeMiss.
 #
+mysql:
+  use: false
+  host: localhost
+  user: root
+  password: unknown
+  database: Fight

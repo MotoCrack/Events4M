@@ -32,6 +32,7 @@ public class Event {
         if(starting)
             throw new IllegalStateException("Event is already starting");
 
+        starting = true;
         FightPlugin plugin = FightPlugin.getInstance();
         plugin.getTaskMap().get("broadcasting").start(plugin);
     }

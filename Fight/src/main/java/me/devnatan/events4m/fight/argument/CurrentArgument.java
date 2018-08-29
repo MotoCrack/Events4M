@@ -32,6 +32,7 @@ public class CurrentArgument extends Argument {
         }
 
         EventPlayer[] current = event.getCurrentArray();
+        player.sendMessage(" ");
         player.sendMessage(" " + ChatColor.AQUA + "Evento " + ChatColor.BOLD + "FIGHT" + ChatColor.RESET + " — " + event.getCurrentIndex() + "º duelo");
         player.sendMessage(" " + ChatColor.AQUA + current[0].getPlayer().getName() + " * " + current[1].getPlayer().getName());
         player.sendMessage(" ");
@@ -41,9 +42,10 @@ public class CurrentArgument extends Argument {
         if(taskMap.containsKey("fighting")) {
             player.sendMessage(" " + ChatColor.AQUA + "Duração: " + taskMap.get("fighting").getElapsed() + " segundos.");
         }
-        try {
+
+        if(event.getSubFighters().size() + 1 < event.getCurrentIndex()) {
             EventPlayer[] next = event.getSubFighters().get(event.getCurrentIndex() + 1);
             player.sendMessage(" " + ChatColor.AQUA + "Próximo duelo: " + next[0].getPlayer().getName() + " * " + next[1].getPlayer().getName());
-        } catch (IndexOutOfBoundsException ignored) { }
+        }
     }
 }

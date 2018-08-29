@@ -4,3 +4,9 @@
 # Sugerido por ! ! Blake.
 #
 amount: 10000
+mysql:
+  use: false
+  host: localhost
+  user: root
+  password: unknown
+  database: Fight

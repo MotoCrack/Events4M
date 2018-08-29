@@ -1,14 +1,12 @@
 package me.devnatan.events4m.fight.task;
 
-import lombok.Getter;
-import lombok.Setter;
 import me.devnatan.events4m.fight.FightPlugin;
 import me.devnatan.events4m.fight.event.Event;
 import org.bukkit.Bukkit;
 
 public class BroadcastingTask extends AbstractTask {
 
-    @Getter @Setter private int broadcasts = 5;
+    private int broadcasts = 5;
 
     public BroadcastingTask() {
         super(60L, true);
@@ -20,14 +18,13 @@ public class BroadcastingTask extends AbstractTask {
         if(broadcasts == 0) {
             FightPlugin plugin = FightPlugin.getInstance();
             Event event = plugin.getEvent();
-            if(event.getFighters().size() >= 10)
+            if(event.getFighters().size() >= 10) {
+                event.setStarting(false);
+                event.setStarted(true);
                 plugin.getTaskMap().get("starting").start(plugin);
-            else {
-                event.forceStop();
-                return;
-            }
+                stop();
+            } else event.forceStop();
 
-            stop();
             return;
         }
 
