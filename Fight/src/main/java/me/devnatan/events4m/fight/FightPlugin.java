@@ -26,14 +26,12 @@ public final class FightPlugin extends JavaPlugin {
 
     @Getter @Setter private static FightPlugin instance;
     @Getter private Economy economy;
-    @Getter private Map<String, Location> locationMap;
+    @Getter private Map<String, Location> locationMap = new HashMap<>();
     @Getter private Event event;
-    @Getter private Map<String, AbstractTask> taskMap;
+    @Getter private Map<String, AbstractTask> taskMap = new HashMap<>();
 
     public void onLoad() {
         setInstance(this);
-        locationMap = new HashMap<>();
-        taskMap = new HashMap<>();
     }
 
     public void onEnable() {
@@ -75,9 +73,7 @@ public final class FightPlugin extends JavaPlugin {
     }
 
     private void conf() {
-        if(getConfig().contains("locations")) {
-            locationMap = LocationUtil.load(getConfig().getConfigurationSection("locations"));
-        }
+        locationMap.putAll(LocationUtil.load(getConfig().contains("locations") ? getConfig().getConfigurationSection("locations") : getConfig().createSection("locations")));
     }
 
     private void event() {

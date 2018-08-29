@@ -1,7 +1,6 @@
 package me.devnatan.events4m.fight.event;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import me.devnatan.events4m.fight.FightPlugin;
 import me.devnatan.events4m.fight.util.CollectionUtil;
 import org.bukkit.Bukkit;
@@ -14,15 +13,16 @@ import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
+@Data
 public class Event {
 
-    @Getter @Setter private boolean started = false;
+    private boolean started = false;
 
-    @Getter private int currentIndex = 0;
-    @Getter private EventPlayer[] currentArray = new EventPlayer[2];
-    @Getter private List<EventPlayer> fighters = new LinkedList<>();
-    @Getter private List<EventPlayer[]> subfighters = new LinkedList<>();
-    @Getter @Setter private EventPlayer winner;
+    private int currentIndex = 0;
+    private EventPlayer[] currentArray = new EventPlayer[2];
+    private final List<EventPlayer> fighters = new LinkedList<>();
+    private final List<EventPlayer[]> subfighters = new LinkedList<>();
+    private EventPlayer winner;
 
     public void start() {
         if(started)

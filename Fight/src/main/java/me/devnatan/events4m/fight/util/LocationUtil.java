@@ -5,14 +5,20 @@ import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class LocationUtil {
 
     public static Map<String, Location> load(ConfigurationSection section) {
         Map<String, Location> map = new HashMap<>();
 
-        for(String key : section.getKeys(false)) {
-            map.put(key, Location.deserialize(section.getConfigurationSection(key).getValues(false)));
+        if(section != null) {
+            Set<String> keys = section.getKeys(false);
+            if(keys != null) {
+                for (String key : keys) {
+                    map.put(key, Location.deserialize(section.getConfigurationSection(key).getValues(false)));
+                }
+            }
         }
 
         return map;

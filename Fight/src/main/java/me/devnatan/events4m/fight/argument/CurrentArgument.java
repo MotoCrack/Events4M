@@ -23,7 +23,6 @@ public class CurrentArgument extends Argument {
         Event event = plugin.getEvent();
         if(!event.isStarted()) {
             player.sendMessage(ChatColor.RED + "O evento Fight não está acontecendo.");
-            player.sendMessage(ChatColor.RED + "Use /fight iniciar: para ele começar.");
             return;
         }
 
