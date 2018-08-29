@@ -2,7 +2,7 @@ main: ${project.parent.groupId}.fight.FightPlugin
 name: ${project.artifactId}
 version: ${project.version}
 authors: [DevNatan, ClhoeMiss]
-softdepend: [Vault, PlaceholderAPI]
+softdepend: [Vault]
 website: https://github.com/MotoCrack/Events4M
 description: ${project.description}
 

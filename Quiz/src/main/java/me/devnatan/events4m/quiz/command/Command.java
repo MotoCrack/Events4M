@@ -1,6 +1,5 @@
 package me.devnatan.events4m.quiz.command;
 
-import lombok.Getter;
 import me.devnatan.events4m.quiz.Quiz;
 import me.devnatan.events4m.quiz.argument.Argument;
 import me.devnatan.events4m.quiz.util.Executable;
@@ -12,8 +11,8 @@ import java.util.Arrays;
 
 public abstract class Command implements CommandExecutor, Executable {
 
-    @Getter private boolean registered = false;
-    @Getter private Argument[] arguments;
+    private boolean registered = false;
+    private Argument[] arguments;
 
     Command(Argument... arguments) {
         this.arguments = arguments;

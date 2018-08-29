@@ -1,7 +1,7 @@
-package me.devnatan.events4m.quiz;
+package me.devnatan.events4m.quiz.event;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import me.devnatan.events4m.quiz.Quiz;
 import me.devnatan.events4m.quiz.util.AnyUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -10,41 +10,24 @@ import java.util.Arrays;
 
 import static me.devnatan.events4m.quiz.util.AnyUtil.announce;
 
+@Data
 public class Event {
 
-    @Getter @Setter private QA qa;
-    @Getter @Setter private long fired;
-    @Getter @Setter private String input;
+    private QA qa;
+    private long fired;
+    private String input;
 
-    /**
-     * Variável que guarda o tempo que o jogador respondeu com a resposta correta
-     * @see #getQa()
-     */
-    @Getter @Setter private long complete = -1;
-    @Getter @Setter private boolean started = false;
+    private long complete = -1;
+    private boolean started = false;
 
-    /**
-     * Quanto tempo passou desde o início do evento
-     * um jogador respondeu a pergunta corretamente
-     * @return long
-     */
     private long getElapsed() {
         return complete - fired;
     }
 
-    /**
-     * Verifica se palavras em uma string juntas
-     * compõem uma resposta mesmo que particionada.
-     * @param answer = a pergunta
-     * @return "true" se conter uma resposta; "false" se não conter uma resposta
-     */
     public boolean matchAnswer(String answer) {
         return AnyUtil.containsEqualsIgnoreCase(Arrays.asList(answer.split(" ")), Arrays.asList(qa.getAnswers()));
     }
 
-    /**
-     * Começa o evento.
-     */
     public void start() {
         if(started)
             throw new IllegalStateException("Event is already started");
@@ -60,10 +43,6 @@ public class Event {
         started = true;
     }
 
-    /**
-     * Termina o evento com um vencedor.
-     * @param winner = o vencedor
-     */
     public void stop(Player winner) {
         if(!started)
             throw new IllegalStateException("Event must be started");
@@ -99,9 +78,6 @@ public class Event {
         }
     }
 
-    /**
-     * Interrompe o evento quiz.
-     */
     public void interrupt() {
         started = false;
         complete = -1;

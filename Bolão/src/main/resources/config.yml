@@ -9,4 +9,4 @@ mysql:
   host: localhost
   user: root
   password: unknown
-  database: Fight
+  database: Events4M

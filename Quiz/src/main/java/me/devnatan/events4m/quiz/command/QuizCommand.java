@@ -1,8 +1,8 @@
 package me.devnatan.events4m.quiz.command;
 
-import me.devnatan.events4m.quiz.Event;
 import me.devnatan.events4m.quiz.Quiz;
 import me.devnatan.events4m.quiz.argument.Argument;
+import me.devnatan.events4m.quiz.event.Event;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
