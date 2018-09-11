@@ -49,18 +49,25 @@ public class Event {
 
         // TODO: Enviar premio para o vencedor
         winner.getPlayer().teleport(FightPlugin.getInstance().getLocationMap().get("saida"));
-        reset();
+        forceStop(false);
     }
 
-    public void forceStop() {
+    public void forceStop(boolean broadcast) {
         Map<String, Location> locationMap = FightPlugin.getInstance().getLocationMap();
         if(locationMap.containsKey("saida")) {
-            fighters.stream().filter(it -> it.getPlayer().isOnline()).forEach(it -> it.getPlayer().teleport(locationMap.get("saida")));
+            fighters.forEach(it -> {
+                Player p = it.getPlayer();
+                if(it.getInventoryContent() != null) p.getInventory().setContents(it.getInventoryContent());
+                if(it.getArmorContent() != null) p.getInventory().setArmorContents(it.getArmorContent());
+                it.getPlayer().teleport(locationMap.get("saida"));
+            });
         }
-        Bukkit.broadcastMessage(" ");
-        Bukkit.broadcastMessage(" " + ChatColor.AQUA + "Evento " + ChatColor.BOLD + "FIGHT " + ChatColor.AQUA + " interrompido!");
-        Bukkit.broadcastMessage(" " + ChatColor.AQUA + "Não foi possível prosseguir com o evento.");
-        Bukkit.broadcastMessage(" ");
+        if(broadcast) {
+            Bukkit.broadcastMessage(" ");
+            Bukkit.broadcastMessage(" " + ChatColor.AQUA + "Evento " + ChatColor.BOLD + "FIGHT" + ChatColor.AQUA + " interrompido!");
+            Bukkit.broadcastMessage(" " + ChatColor.AQUA + "Não foi possível prosseguir com o evento.");
+            Bukkit.broadcastMessage(" ");
+        }
         reset();
     }
 

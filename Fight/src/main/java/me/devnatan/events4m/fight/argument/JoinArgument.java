@@ -41,20 +41,28 @@ public class JoinArgument extends Argument {
             return;
         }
 
-        EventPlayer eventPlayer = event.getPlayer(player);
-        if(eventPlayer != null) {
+        if(!event.isStarting()) {
+            player.sendMessage(ChatColor.RED + "O evento Fight não está acontecendo.");
+            return;
+        }
+
+        if(event.getPlayer(player) != null) {
             player.sendMessage(ChatColor.RED + "Você já está participando do evento Fight.");
             return;
         }
 
-        eventPlayer = new EventPlayer(player);
+        EventPlayer eventPlayer = new EventPlayer(player);
         eventPlayer.setArmorContent(player.getInventory().getArmorContents());
         eventPlayer.setInventoryContent(player.getInventory().getContents());
-        eventPlayer.setExtraContent(player.getInventory().getExtraContents());
         eventPlayer.setPlaying(false);
         event.getFighters().add(eventPlayer);
         player.getInventory().clear();
         player.teleport(locationMap.get("lobby"));
-        // TODO: Fazer uma mensagem de entrada empolgante.
+        player.sendMessage(" ");
+        player.sendMessage(" " + ChatColor.AQUA + "Você entrou no evento " + ChatColor.BOLD + "FIGHT" + ChatColor.AQUA + ".");
+        player.sendMessage(" " + ChatColor.AQUA + "Aguarde-o iniciar para duelar!");
+        player.sendMessage(" ");
+        player.sendMessage(" " + ChatColor.AQUA + "Seus itens serão devolvidos ao fim do evento.");
+        player.sendMessage(" ");
     }
 }
