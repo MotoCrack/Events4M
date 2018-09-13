@@ -17,7 +17,7 @@ public class StartingTask extends AbstractTask {
         Event event = plugin.getEvent();
         final int DURATION = 10;
         if(elapsed == DURATION) {
-            if(event.getFighters().size() >= 4) {
+            if(event.getFighters().size() >= 2) {
                 // debug
                 Bukkit.broadcastMessage("Distribuindo jogadores.");
                 event.subdivide(remaining -> {
@@ -29,14 +29,14 @@ public class StartingTask extends AbstractTask {
                     }
 
                     Bukkit.broadcastMessage(" ");
-                    Bukkit.broadcastMessage(" " + ChatColor.AQUA + "Evento " + ChatColor.BOLD + "FIGHT " + ChatColor.AQUA + "começou!");
+                    Bukkit.broadcastMessage(" " + ChatColor.AQUA + "Evento " + ChatColor.BOLD + "FIGHT" + ChatColor.AQUA + " começou!");
                     Bukkit.broadcastMessage(" " + ChatColor.AQUA + "Assista de camarote em " + ChatColor.RESET + "/fight camarote" + ChatColor.AQUA + ".");
                     Bukkit.broadcastMessage(" ");
                     Bukkit.broadcastMessage(" " + ChatColor.AQUA + "Estão participando " + ChatColor.RESET + event.getFighters().size() + " jogadores" + ChatColor.AQUA + ".");
                     Bukkit.broadcastMessage(" ");
                     plugin.getTaskMap().get("fighting").start(plugin);
                 });
-            } else event.forceStop();
+            } else event.forceStop(true);
 
             stop();
             return;

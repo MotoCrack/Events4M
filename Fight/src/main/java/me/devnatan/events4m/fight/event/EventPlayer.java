@@ -12,7 +12,7 @@ public class EventPlayer {
     private final Player player;
     private boolean playing;
     private int elapsed;
-    private transient ItemStack[] armorContent, inventoryContent, extraContent;
+    private transient ItemStack[] armorContent, inventoryContent;
 
     public EventPlayer(Player player) {
         this.player = player;

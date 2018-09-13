@@ -1,7 +1,6 @@
 package me.devnatan.events4m.fight;
 
 import lombok.Getter;
-import lombok.Setter;
 import me.devnatan.events4m.fight.argument.*;
 import me.devnatan.events4m.fight.command.FightCommand;
 import me.devnatan.events4m.fight.event.Event;
@@ -24,14 +23,14 @@ import java.util.Map;
 
 public final class FightPlugin extends JavaPlugin {
 
-    @Getter @Setter private static FightPlugin instance;
+    @Getter private static FightPlugin instance;
     @Getter private Economy economy;
     @Getter private Map<String, Location> locationMap = new HashMap<>();
     @Getter private Event event;
     @Getter private Map<String, AbstractTask> taskMap = new HashMap<>();
 
     public void onLoad() {
-        setInstance(this);
+        instance = this;
     }
 
     public void onEnable() {
@@ -44,7 +43,7 @@ public final class FightPlugin extends JavaPlugin {
 
     public void onDisable() {
         if(event != null && event.isStarted()) {
-            event.forceStop();
+            event.forceStop(false);
         }
     }
 
@@ -99,6 +98,7 @@ public final class FightPlugin extends JavaPlugin {
     public void tasks() {
         taskMap.forEach((k, t) -> {
             if(t.isRunning()) t.stop();
+            t = null;
         });
 
         taskMap.put("starting", new StartingTask());

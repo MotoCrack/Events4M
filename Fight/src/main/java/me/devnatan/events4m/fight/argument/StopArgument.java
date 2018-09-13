@@ -38,6 +38,6 @@ public class StopArgument extends Argument {
         }
 
         player.sendMessage(ChatColor.YELLOW + "Interrompendo evento Fight...");
-        event.forceStop();
+        event.forceStop(true);
     }
 }

@@ -24,16 +24,15 @@ public class BroadcastingTask extends AbstractTask {
                 event.setStarted(true);
                 plugin.getTaskMap().get("starting").start(plugin);
                 stop();
-            } else event.forceStop();
+            } else event.forceStop(true);
         } else broadcast();
     }
 
     public static void broadcast() {
         Bukkit.broadcastMessage(" ");
-        Bukkit.broadcastMessage(" " + ChatColor.AQUA + "Evento " + ChatColor.BOLD + "FIGHT " + ChatColor.AQUA + "iniciado!");
+        Bukkit.broadcastMessage(" " + ChatColor.AQUA + "Evento " + ChatColor.BOLD + "FIGHT " + ChatColor.AQUA + "prestes a iniciar!");
         Bukkit.broadcastMessage(" " + ChatColor.AQUA + "Participe usando " + ChatColor.RESET + "/fight entrar" + ChatColor.AQUA + ".");
         Bukkit.broadcastMessage(" " + ChatColor.AQUA + "Todos terão equipamentos iguais no PvP.");
-        Bukkit.broadcastMessage(" " + ChatColor.AQUA + "Há risco de morte mas perde os itens do inventário.");
         Bukkit.broadcastMessage(" " + ChatColor.AQUA + "Assista de camarote em " + ChatColor.RESET + "/fight camarote" + ChatColor.AQUA + ".");
         Bukkit.broadcastMessage(" ");
     }
